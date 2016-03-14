@@ -19,6 +19,8 @@
 extern NSString * const NXOAuth2ClientConnectionContextTokenRequest;
 extern NSString * const NXOAuth2ClientConnectionContextTokenRefresh;
 
+extern NSString * const NXOAuth2RefreshTokenExpiredNotification;
+
 @class NXOAuth2Connection, NXOAuth2AccessToken;
 
 /*!

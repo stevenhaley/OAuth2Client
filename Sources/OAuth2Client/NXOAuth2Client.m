@@ -23,6 +23,8 @@
 NSString * const NXOAuth2ClientConnectionContextTokenRequest = @"tokenRequest";
 NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
 
+NSString * const NXOAuth2RefreshTokenExpiredNotification = @"NXOAuth2RefreshTokenExpiredNotification";
+
 
 @interface NXOAuth2Client ()
 @property (nonatomic, readwrite, getter = isAuthenticating) BOOL authenticating;
@@ -541,10 +543,12 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
                 [waitingConnections removeAllObjects];
                 for (NXOAuth2Connection *connection in failedConnections) {
                     id<NXOAuth2ConnectionDelegate> connectionDelegate = connection.delegate;
-                        if ([connectionDelegate respondsToSelector:@selector(oauthConnection:didFailWithError:)]) {
+                    if ([connectionDelegate respondsToSelector:@selector(oauthConnection:didFailWithError:)]) {
                         [connectionDelegate oauthConnection:connection didFailWithError:retryFailedError];
                     }
                 }
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:NXOAuth2RefreshTokenExpiredNotification object:retryFailedError];
             }
             
             if ([[error domain] isEqualToString:NXOAuth2HTTPErrorDomain]
