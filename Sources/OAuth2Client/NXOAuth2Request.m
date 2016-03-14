@@ -121,7 +121,7 @@
 - (void)performRequestWithSendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)progressHandler
                                  responseHandler:(NXOAuth2ConnectionResponseHandler)responseHandler;
 {
-    NSAssert(self.me == nil, @"This object an only perform one request at the same time.");
+    NSAssert(self.me == nil, @"This object can only perform one request at the same time.");
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.resource];
     [request setHTTPMethod:self.requestMethod];
