@@ -419,7 +419,7 @@ sendingProgressHandler:(NXOAuth2ConnectionSendingProgressHandler)aSendingProgres
     if (self.statusCode == 401 && client.accessToken.refreshToken != nil && authenticateHeader) {
         [self cancel];
         [client refreshAccessTokenAndRetryConnection:self];
-    } else if (client.authConnection != self && authenticateHeader && client) {
+    } else if (client.authConnection != self && authenticateHeader && client && !client.accessToken) {
         [self cancel];
         [client requestAccessAndRetryConnection:self];
     } else {
